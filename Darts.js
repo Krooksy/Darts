@@ -38,7 +38,6 @@ const multiplierWords = {
 
 // This function similutes the chance of throwing a double for the win.
 const doubleToWin = (player, dtwNum) => {
-    // console.log(player.name + ' requires ' + dtwNum + ' to win... \n');
     
     // Gives a 50/50 chance of scoring the double  
     const winProbabilityArray = [0, 0, 1, 1];
@@ -96,7 +95,7 @@ const throwDarts = (player) => {
         }
     }
 
-    // Increments the currnt players turnsTaken property
+    // Increments the current players turnsTaken property
     player.turnsTaken++;
 
     // This ends the execution if a player wins during the the throwDarts function.
@@ -114,7 +113,6 @@ const throwDarts = (player) => {
         console.log(`${player.name} scored ${threeDartTotal} and has ${player.scoreRemaining} remaining! \n`);
         return player.scoreRemaining;
     }
-
 };
 
 // while neither player has been designated the winner, continue playing until the score is within the 'double to win' window.
@@ -126,7 +124,6 @@ while (player1.winner == false && player2.winner == false) {
     }
 
     if (player1.turnsTaken > 20 && player2.turnsTaken > 20) {
-
         const suddenDeathWinner = player1.scoreRemaining < player2.scoreRemaining ? player1 : player2;
         suddenDeathWinner.winner = true;
         console.log(`The game has surpassed 20 turns! ${suddenDeathWinner.name} is the winner with the lower score of ${suddenDeathWinner.scoreRemaining}`);
