@@ -20,6 +20,24 @@ let roundScores = {
     katie: 0,
 };
 
+const resetStats = () => {
+    player1 = {
+        name: 'Jordan',
+        winner: false,
+        scoreRemaining: 501,
+        turnsTaken: 0,
+        deciderShot: 0,
+    };
+
+    player2 = {
+        name: 'Katie',
+        winner: false,
+        scoreRemaining: 501,
+        turnsTaken: 0,
+        deciderShot: 0,
+    };
+};
+
 // Possible scores with a single dart, each time the function is called, a random value from the array is selected.
 const randomBoardScore = () => {
     const boardNumbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 25, 50];
@@ -168,44 +186,50 @@ const throwDarts = (player) => {
     }
 };
 
-// Decide who throws first with 1 dart each, highest score throws first.
-decideFirstThrower();
+for (let i = 0; roundScores.jordan < 3 && roundScores.katie < 3; i++) {
 
-// while neither player has been designated the winner, continue playing until the score is within the 'double to win' window.
-while (player1.winner == false && player2.winner == false) {
-    player1.scoreRemaining = throwDarts(player1);
+    // Decide who throws first with 1 dart each, highest score throws first.
+    decideFirstThrower();
 
-    if (player1.winner == false) {
-        player2.scoreRemaining = throwDarts(player2);
-    } else if (player2.scoreRemaining <= 160) {
-        player2.scoreRemaining = throwDarts(player2);
-    } else {
-        break;
+    // while neither player has been designated the winner, continue playing until the score is within the 'double to win' window.
+    while (player1.winner == false && player2.winner == false) {
+        player1.scoreRemaining = throwDarts(player1);
+
+        if (player1.winner == false) {
+            player2.scoreRemaining = throwDarts(player2);
+        } else if (player2.scoreRemaining <= 160) {
+            player2.scoreRemaining = throwDarts(player2);
+        } else {
+            break;
+        }
+
+        // Check winning scenario and display the coressponding result.
+        // Overtime
+        if (player1.winner == true && player2.winner == true && player1.turnsTaken == player2.turnsTaken) {
+            console.log('Tie game! Overtime coming up... \n');
+            const winner = overtimeWinner(player1) > overtimeWinner(player2) ? player1 : player2;
+            roundScores[winner.name.toLowerCase()]++;
+            console.log(`The winner is ${winner.name}!`);
+            break;
+
+        } else if (player1.winner || player2.winner == true) {
+            const winner = player1.scoreRemaining < player2.scoreRemaining ? player1 : player2;
+            console.log(`${winner.name} has won! \n`);
+            roundScores[winner.name.toLowerCase()]++;
+            break;
+        }
+
+        if (player1.winner == false && player2.winner == false && player1.turnsTaken > 20 && player2.turnsTaken > 20) {
+            const suddenDeathWinner = player1.scoreRemaining < player2.scoreRemaining ? player1 : player2;
+            suddenDeathWinner.roundsWon++;
+            console.log(`The game has surpassed 20 turns! ${suddenDeathWinner.name} is the winner with the lower score of ${suddenDeathWinner.scoreRemaining} \n`);
+            break;
+        }
     }
-
-    // Check winning scenario and display the coressponding result.
-
-    // Overtime
-    if (player1.winner == true && player2.winner == true && player1.turnsTaken == player2.turnsTaken) {
-        console.log('Tie game! Overtime coming up... \n');
-        const winner = overtimeWinner(player1) > overtimeWinner(player2) ? player1 : player2;
-        winner.roundsWon++;
-        console.log(`The winner is ${winner.name}!`);
-        break;
-
-    } else if (player1.winner || player2.winner == true) {
-        const winner = player1.scoreRemaining < player2.scoreRemaining ? player1 : player2;
-        console.log(`${winner.name} has won!`);
-        roundScores[winner.name.toLowerCase()]++;
-        break;
-    }
-
-    if (player1.winner == false && player2.winner == false && player1.turnsTaken > 20 && player2.turnsTaken > 20) {
-        const suddenDeathWinner = player1.scoreRemaining < player2.scoreRemaining ? player1 : player2;
-        suddenDeathWinner.roundsWon++;
-        console.log(`The game has surpassed 20 turns! ${suddenDeathWinner.name} is the winner with the lower score of ${suddenDeathWinner.scoreRemaining}`);
-        break;
-    }
+    console.log('############################################################### \n');
+    resetStats();
 }
-console.log(roundScores.jordan, roundScores.katie);
-console.log('Game over.');
+const overallWinnner = roundScores.jordan > roundScores.katie ? 'Jordan' : 'Katie';
+const wonRounds = Math.max(roundScores.jordan, roundScores.katie);
+const lostRounds = Math.min(roundScores.jordan, roundScores.katie);
+console.log(`Game over! ${overallWinnner} won with ${wonRounds} rounds to ${lostRounds}`);
