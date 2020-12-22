@@ -186,7 +186,8 @@ const throwDarts = (player) => {
     }
 };
 
-for (let i = 0; roundScores.jordan < 3 && roundScores.katie < 3; i++) {
+let roundsToWin = 5;
+for (let i = 0; roundScores.jordan < roundsToWin && roundScores.katie < roundsToWin; i++) {
 
     // Decide who throws first with 1 dart each, highest score throws first.
     decideFirstThrower();
@@ -226,10 +227,11 @@ for (let i = 0; roundScores.jordan < 3 && roundScores.katie < 3; i++) {
             break;
         }
     }
-    console.log('############################################################### \n');
+    console.log('################################################ \n');
     resetStats();
 }
-const overallWinnner = roundScores.jordan > roundScores.katie ? 'Jordan' : 'Katie';
+const roundScoresArray = Object.keys(roundScores);
+const overallWinnner = roundScores.jordan > roundScores.katie ? roundScoresArray[0] : roundScoresArray[1];
 const wonRounds = Math.max(roundScores.jordan, roundScores.katie);
 const lostRounds = Math.min(roundScores.jordan, roundScores.katie);
 console.log(`Game over! ${overallWinnner} won with ${wonRounds} rounds to ${lostRounds}`);
