@@ -1,4 +1,4 @@
-// Player objects
+// Player objects.
 let player1 = {
     name: 'Jordan',
     winner: false,
@@ -14,12 +14,12 @@ let player2 = {
     turnsTaken: 0,
     deciderShot: 0,
 };
-
+// Counts number of rounds won.
 let roundScores = {
     jordan: 0,
     katie: 0,
 };
-
+// Reset stats inbetween rounds.
 const resetStats = () => {
     player1 = {
         name: 'Jordan',
@@ -205,7 +205,7 @@ for (let i = 0; roundScores.jordan < roundsToWin && roundScores.katie < roundsTo
             break;
         }
 
-        // Check winning scenario and display the coressponding result.
+        // Check winning scenario and display the corresponding result.
         // Overtime
         if (player1.winner == true && player2.winner == true && player1.turnsTaken == player2.turnsTaken) {
             console.log('Tie game! Overtime coming up... \n');
@@ -213,14 +213,14 @@ for (let i = 0; roundScores.jordan < roundsToWin && roundScores.katie < roundsTo
             roundScores[winner.name.toLowerCase()]++;
             console.log(`The winner is ${winner.name}!`);
             break;
-
+            // Regular winner
         } else if (player1.winner || player2.winner == true) {
             const winner = player1.scoreRemaining < player2.scoreRemaining ? player1 : player2;
             console.log(`${winner.name} has won! \n`);
             roundScores[winner.name.toLowerCase()]++;
             break;
         }
-
+        // Sudden death
         if (player1.winner == false && player2.winner == false && player1.turnsTaken > 20 && player2.turnsTaken > 20) {
             const suddenDeathWinner = player1.scoreRemaining < player2.scoreRemaining ? player1 : player2;
             suddenDeathWinner.roundsWon++;
@@ -231,9 +231,10 @@ for (let i = 0; roundScores.jordan < roundsToWin && roundScores.katie < roundsTo
     console.log('################################################ \n');
     resetStats();
 }
+
 // Creates an array of keys from the roundScores object.
 const roundScoresArray = Object.keys(roundScores);
-// assigns the player with the needed amount of rounds won to overallWinner
+// assigns the player with the needed amount of won rounds
 const overallWinnner = roundScores.jordan > roundScores.katie ? roundScoresArray[0] : roundScoresArray[1];
 // Counts rounds won and lost.
 const wonRounds = Math.max(roundScores.jordan, roundScores.katie);
