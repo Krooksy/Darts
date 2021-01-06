@@ -129,7 +129,7 @@ const doubleToWin = (player, dtwNum) => {
 
 // This function will throw three darts, calculate the scores and finally deduct that value from the values above.
 const throwDarts = (player) => {
-    // Resets the three dart total to zero before the next loop.
+    // Resets the three dart total to zero before the next call.
     console.log(`${player.name} to throw. ${player.scoreRemaining} needed.`);
     let threeDartTotal = 0;
     let previousTotal = player.scoreRemaining;
@@ -187,6 +187,7 @@ const throwDarts = (player) => {
 };
 
 let roundsToWin = 5;
+// Make sure that neither person has the needed amount of rounds won. 
 for (let i = 0; roundScores.jordan < roundsToWin && roundScores.katie < roundsToWin; i++) {
 
     // Decide who throws first with 1 dart each, highest score throws first.
@@ -230,8 +231,11 @@ for (let i = 0; roundScores.jordan < roundsToWin && roundScores.katie < roundsTo
     console.log('################################################ \n');
     resetStats();
 }
+// Creates an array of keys from the roundScores object.
 const roundScoresArray = Object.keys(roundScores);
+// assigns the player with the needed amount of rounds won to overallWinner
 const overallWinnner = roundScores.jordan > roundScores.katie ? roundScoresArray[0] : roundScoresArray[1];
+// Counts rounds won and lost.
 const wonRounds = Math.max(roundScores.jordan, roundScores.katie);
 const lostRounds = Math.min(roundScores.jordan, roundScores.katie);
 console.log(`Game over! ${overallWinnner} won with ${wonRounds} rounds to ${lostRounds}`);
