@@ -186,6 +186,8 @@ const throwDarts = (player) => {
     }
 };
 
+// ---------- GAME STARTS HERE ----------
+
 let roundsToWin = 5;
 // Make sure that neither person has the needed amount of rounds won. 
 for (let i = 0; roundScores.jordan < roundsToWin && roundScores.katie < roundsToWin; i++) {
