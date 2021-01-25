@@ -199,9 +199,7 @@ for (let i = 0; roundScores.jordan < roundsToWin && roundScores.katie < roundsTo
     while (player1.winner == false && player2.winner == false) {
         player1.scoreRemaining = throwDarts(player1);
 
-        if (player1.winner == false) {
-            player2.scoreRemaining = throwDarts(player2);
-        } else if (player2.scoreRemaining <= 160) {
+        if (player1.winner == false || player2.scoreRemaining <= 160) {
             player2.scoreRemaining = throwDarts(player2);
         } else {
             break;
